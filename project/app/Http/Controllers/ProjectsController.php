@@ -12,31 +12,33 @@ class ProjectsController extends Controller
         return view('projects.index', compact('projects'));
     }
 
+    public function show(Project $project) {
+        return view('projects.show', compact('project'));
+    }
+
     public function create() {
         return view('projects.create');
     }
 
     public function store() {
-        $req = request()->all();
-
-        $project = new Project();
-        $project->title = $req['title'];
-        $project->description = $req['description'];
-
-        $project->save();
+        Project::create(request(['title', 'description']));
 
         return redirect('/projects');
     }
 
-    public function edit() {
-
+    public function edit(Project $project) {
+        return view('projects.edit', compact('project'));
     }
 
-    public function update() {
+    public function update(Project $project) {
+        $project->update(request(['title', 'description']));
 
+        return redirect('/projects');
     }
 
-    public function destroy() {
-        
+    public function destroy(Project $project) {
+        $project->delete();
+
+        return redirect('/projects');
     }
 }

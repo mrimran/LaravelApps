@@ -10,7 +10,11 @@
         <h1>Projects</h1>
         <ul>
             @foreach ($projects as $proj)
-                <li>{{$proj->title}}</li>
+                <li>
+                    <a href="/projects/{{$proj->id}}">
+                        {{$proj->title}}
+                    </a>
+                </li>
             @endforeach
         </ul>
     </body>
