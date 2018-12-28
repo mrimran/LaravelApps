@@ -27,15 +27,7 @@
                 <button type="submit" class="button is-link">Update Project</button>
             </div>
         </div>
-        @if ($errors->any())
-            <div class="notification is-danger">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{$error}}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
+        @include('errors')
     </form>
 
     <form method="POST" action="/projects/{{$project->id}}">
