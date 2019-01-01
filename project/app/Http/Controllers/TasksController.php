@@ -17,9 +17,9 @@ class TasksController extends Controller
     }
 
     public function update(Task $task) {
-        $task->update([
-            'completed' => request()->has('completed')
-        ]);
+        //$task->complete(request()->has('completed'));
+
+        request()->has('completed') ? $task->complete() : $task->incomplete();
 
         return back();//go back to the previous url
     }

@@ -13,7 +13,7 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        'App\Model' => 'App\Policies\ModelPolicy',
+        'App\Project' => 'App\Policies\ProjectPolicy',
     ];
 
     /**
@@ -25,6 +25,11 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
+        //we can add logic below to allow kind of a admin user to edit all information
+        //considering user id 1 is admin
+        Gate::define('isAdmin', function($user) {
+            return $user->id == 1;//just return true to bypass any following checks of policy
+        });
         //
     }
 }

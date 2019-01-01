@@ -7,12 +7,19 @@ use App\Project;
 
 class ProjectsController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
     public function index() {
         $projects = \App\Project::all();
         return view('projects.index', compact('projects'));
     }
 
     public function show(Project $project) {
+        $this->authorize('update', $project);
+        
         return view('projects.show', compact('project'));
     }
 
@@ -21,10 +28,14 @@ class ProjectsController extends Controller
     }
 
     public function store() {
+        $this->authorize('update', $project);
+
         $vars = request()->validate([
             'title' => 'required|min:3|max:255',
             'description' => 'required|min:5'
         ]);
+
+        $vars['owner_id'] = auth()->id();
 
         Project::create($vars);
 
@@ -32,10 +43,12 @@ class ProjectsController extends Controller
     }
 
     public function edit(Project $project) {
+        $this->authorize('update', $project);
         return view('projects.edit', compact('project'));
     }
 
     public function update(Project $project) {
+        $this->authorize('update', $project);
         $vars = request()->validate([
             'title' => 'required|min:3|max:255',
             'description' => 'required|min:5'
@@ -47,6 +60,8 @@ class ProjectsController extends Controller
     }
 
     public function destroy(Project $project) {
+        $this->authorize('update', $project);
+        
         $project->delete();
 
         return redirect('/projects');
